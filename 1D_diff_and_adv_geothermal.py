@@ -1,3 +1,16 @@
+'''
+This model iterates on my previous Week 2 Project, adding the advection portion of
+a geothermal system and importing data from the literature. As water is reinjected
+into a geothermal reservoir, how does the temperature gradient change? I found data
+from the literature to import into this model to investigate two variables:
+reinjection rate and reinjection temperature. 
+
+Data from Rivera Diaz, Alexandre, Eylem Kaya, and Sadiq J. Zarrouk. “Reinjection in 
+Geothermal Fields − A Worldwide Review Update.” Renewable and Sustainable Energy Reviews 
+53 (January 1, 2016): 105–62. https://doi.org/10.1016/j.rser.2015.07.151
+
+'''
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,7 +25,19 @@ reinjection_rates = np.array(data.iloc[1:, 4]) ## reinjection rate of geothermal
 temperatures = np.array(data.iloc[1:, 5]) ## reinjection temperature of geothermal fluid in *C
 reservoirs = data.iloc[1:, 2].values ## type of reservoir: hot water, 2-phase low enthalpy, 2-phase medium enthalpy, 2-phase high enthalpy
 
-def geothermal_model(reinjection_rate):
+
+'''
+This model utilizes a function that will change the value for reinjection rate,
+pulled from the above .csv, and later on add in injection temperature. Since the 
+review I pulled the data from did not report thermal conductivity, depth of injection,
+thermal gradient of the reservoir, or density of geothermal fluid, I have opted to keep
+those constant for all of the model. Future work could focus on discerning these parameters
+and updating the model with them.
+That being said, small tweaks in this model could result in instability - for example,
+changing the dt or dz steps. If this occurs, then reset the model to the preset options.
+'''
+
+def geothermal_model(reinjection_rate, temperature):
     ## Convert reinjection rate to velocity -- Q = vA or v = Q/A
     ## Q = t/hr or m3/hr -> convert to m3/s
     ## A = average are of reinjection well head (0.5m2)       
@@ -69,7 +94,7 @@ def geothermal_model(reinjection_rate):
      
     
     ## Supply variable pulls a reinjection temperature from its position relative to reinjection rate
-    S = temperatures[reinjection_rates==reinjection_rate]     
+    S = float(temperature)    
    
     ## --------------------- MODELING THROUGH TIME ----------------------------##
     time = 0
@@ -84,34 +109,43 @@ def geothermal_model(reinjection_rate):
 
 ##----------------------------- PLOTTING SET UP -------------------------------##
 
-## Reintroduce Initial Conditions to Plot
-dzi = 10
-zi = np.arange(1000, 1500, dzi)
+## Initial Conditions
+dzi = 10 ## meter steps between nodes
+zi = np.arange(1000, 1500, dzi) ## depths 
 nodesi = len(zi)
-Ti = np.linspace(150, 250, num=nodesi)
+Ti = np.linspace(150, 250, num=nodesi)  ## fills in the array with temps in *C
 
-fig, ax = plt.subplots(1,1, figsize=(10,8))
-ax.plot(Ti, zi, "--", c='b', label = 'Geothermal Gradient', lw=2)
 
-## Changing colors 
-labels = np.unique(reservoirs)
-colors = dict(zip(labels, plt.cm.magma(np.linspace(0, 1, len(labels)))))
+# Plotting
+fig, ax = plt.subplots(2, 2, sharex=True, sharey=True)
+axs = ax.flatten()
+
 
 ## --------------------------- PLOT THE FUNCTION ------------------------------##
 
 ## using a for loop, which correlates each reinjection rate to its reservoir type 
-for reinjection_rate, reservoirs in zip(reinjection_rates, reservoirs):
-    output = geothermal_model(reinjection_rate)
+for reinjection_rate, reservoir, temperature in zip(reinjection_rates, reservoirs, temperatures):
+    output = geothermal_model(reinjection_rate, temperature)
     
-    if output is not None: ## references stability check
+    if output is not None:    
         T, z = output
-        reservoir_color = colors[reservoirs]
-        ax.plot(T, z, label =f'{reservoirs}', color=reservoir_color)
+        if reservoir == 'Hot Water':
+            i = 0
+        elif reservoir == "2-Phase, Low E":
+            i = 1
+        elif reservoir == "2-Phase, Med E": 
+            i = 2
+        elif reservoir == "2-Phase, High E":
+            i = 3
         
-        
-ax.set_title('Temperature Change with Different Velocities',fontsize=20)
-ax.set_xlabel('Temperature (°C)', fontsize=14)
-ax.set_ylabel('Depth (m)', fontsize=14)
-ax.set_ylim(ax.get_ylim()[::-1])
-ax.legend()
+        axs[i].plot(T, z, label=f'Injection Temp: {temperature}°C')
+        axs[i].plot(Ti, zi, '--k')
+        axs[i].set_title(f'Temperature Change - {reservoir} System')
+        axs[i].set_xlabel('Temperature (°C)')
+        axs[i].set_ylabel('Depth (m)')
+        axs[i].invert_yaxis()
+        axs[i].legend()
+
+
+plt.suptitle('Temperature Change with Different Velocities')
 plt.show()
