@@ -1,0 +1,28 @@
+﻿From Rivera et al. 2015,,,,,
+Site,Country,Type,Extraction Temperature,Injection Rate (t/h),Injection Temperature
+Altheim ,Austria,Hot Water,106,278.1,70
+Neustadt-Glewe,Germany,Hot Water,99,109,60
+Pauzhetsky,Russia,Hot Water,200,136.8,110
+Tuzla,Turkey,Hot Water,175,600,97
+Mammoth,USA,Hot Water,170.5,2089,80
+Las Pailas,Costa Rica,"2-Phase, Low E",247,1368,140
+Miravalles,Costa Rica,"2-Phase, Low E",245,4438,155
+Takigami,Japan,"2-Phase, Low E",200,1164,130
+Germencik,Turkey,"2-Phase, Low E",232,7000,110
+Berlin,Germany,"2-Phase, Med E",300,2230,175
+Sibayak,Indonesia,"2-Phase, Med E",275,285.9,162
+Hatchobaru,Japan,"2-Phase, Med E",275,1800,90
+Momotombo,Nicarauga,"2-Phase, Med E",330,1200,105
+Momotombo,Nicarauga,"2-Phase, Med E",330,1200,30
+Leyte,Philippines,"2-Phase, Med E",280,2900,160
+Roosevelt Hot Springs,USA,"2-Phase, Med E",260,879,100
+Hengill,Iceland,"2-Phase, High E",300,2139.8,80
+Hengill,Iceland,"2-Phase, High E",300,1152,55
+Fushime,Japan,"2-Phase, High E",350,350,180
+Sumikawa-Onuma,Japan,"2-Phase, High E",215,383.5,94
+Sumikawa-Onuma,Japan,"2-Phase, High E",200,383.5,140
+Olkaira,Kenya,"2-Phase, High E",275,21,160
+Olkaira,Kenya,"2-Phase, High E",275,100,20
+Los Azufres,Mexico,"2-Phase, High E",260,850,40
+Cerro Prieto,Mexico,"2-Phase, High E",300,2237.5,150
+Mutnovsky,Russia,"2-Phase, High E",280,811,145
