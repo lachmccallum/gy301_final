@@ -115,11 +115,11 @@ for reinjection_rate, reservoir, temperature in zip(reinjection_rates, reservoir
         axs[i].plot(T, z, label=f'Injection Temp: {temperature}°C')
         axs[i].plot(Ti, zi, '--k')
         axs[i].set_title(f'Temperature Change - {reservoir} System')
-        axs[i].set_xlabel('Temperature (°C)')
-        axs[i].set_ylabel('Depth (m)')
+        axs[i].set_xlabel('Temperature (°C)', fontsize = 14)
+        axs[i].set_ylabel('Depth (m)', fontsize = 14)
         axs[i].invert_yaxis()
         axs[i].legend()
 
 
-plt.suptitle('Temperature Change with Different Velocities')
+plt.suptitle('Impact of Reinjection Fluid on Geothermal Reservoir Temperature Change Across Multiple Reservoir Types', fontsize = 20)
 plt.show()
