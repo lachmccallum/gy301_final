@@ -67,7 +67,7 @@ def geothermal_model(reinjection_rate, temperature):
     A[-1,-1] = 1    
      
     
-    ## Supply variable pulls a reinjection temperature from its position relative to reinjection rate
+    ## Creates an iterative temperature variable within the function, turned into a float 
     S = float(temperature)    
    
     ## --------------------- MODELING THROUGH TIME ----------------------------##
